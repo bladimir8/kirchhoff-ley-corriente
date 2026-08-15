@@ -691,3 +691,49 @@ h2{
   .portada h1{ font-size: 2.2rem; }
   h2{ font-size: 1.7rem; }
 }
+
+/* ---- Mobile phones ---- */
+@media (max-width: 640px){
+  .slide{
+    align-items: flex-start;
+    padding: 4.2rem 5vw 6.5rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .slide.active{ pointer-events: auto; }
+  .content{ margin: auto; }
+  .content.split{ display: block; }
+  .content.split .col-text{ margin-bottom: 1.6rem; }
+  .split.diagram-emphasis{ grid-template-columns: 1fr; }
+
+  .eyebrow{ font-size: .68rem; }
+  h2{ font-size: 1.25rem; }
+  .lead, .lead.small{ font-size: .92rem; }
+  .card p, .card h3, .ref, .check-list li, .step-list li, .sub-list li, .proc-step p, .error-card p, .mini-caption, .biblio-list li{ font-size: .86rem; }
+  .formula{ font-size: 1.1rem; }
+  .formula-box.compact .formula{ font-size: 1rem; }
+  .solve-line{ font-size: .92rem; }
+  .solve-line.result{ font-size: 1.15rem; }
+  .eq-caption{ font-size: 1rem; }
+
+  .formula-row{ flex-direction: column; }
+  .procedure-grid{ gap: .7rem; }
+  .col-diagram svg, .toggle-diagram{ max-width: 280px; }
+
+  .portada h1{ font-size: 1.6rem; }
+  .subtitle{ font-size: .85rem; }
+  .portada-node svg{ width: 170px; }
+  .portada-footer{ gap: 1.1rem 1.6rem; }
+
+  .logo-row{ flex-wrap: wrap; gap: 1.2rem; }
+  .logo-img{ height: 64px; }
+
+  .ui-nav{ bottom: .8rem; padding: .4rem .6rem; gap: .7rem; }
+  .nav-btn{ width: 1.8rem; height: 1.8rem; font-size: 1rem; }
+  .dots{ gap: .35rem; }
+  .dot{ width: 6px; height: 6px; }
+  .counter{ bottom: 1rem; right: .7rem; font-size: .7rem; }
+  .fullscreen-btn{ top: .7rem; right: .7rem; width: 2rem; height: 2rem; font-size: .9rem; }
+
+  .formula-float-layer, .node-bg-layer{ display: none; }
+}
