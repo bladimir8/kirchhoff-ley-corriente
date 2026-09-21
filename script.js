@@ -17,12 +17,43 @@
   });
   const dots = Array.from(dotsEl.children);
 
+  // ---- staggered entrance: tag each slide's elements and give them a delay ----
+  document.documentElement.classList.add('js');
+  const REVEAL = '.eyebrow, h2, .lead, .formula-box, .card, .check-list li, .step-list li, ' +
+    '.sub-list li, .proc-step, .error-card, .solve-line, .ref, .diagram-caption, .mini-caption, ' +
+    '.biblio-list li, .logo-row, .col-diagram, .diagram-center, .bio-strip, .portada > *';
+  const SLOW_STEP = '.solve-line, .proc-step, .error-card';
+  slides.forEach((slide) => {
+    const els = Array.from(slide.querySelectorAll(REVEAL)).filter((el) =>
+      !el.parentElement.closest(REVEAL) && !el.closest('.formula-float-layer, .node-bg-layer'));
+    let n = 0;
+    els.forEach((el) => {
+      el.classList.add('rv');
+      let delay;
+      if(el.matches('.col-diagram, .diagram-center')){
+        el.classList.add('rv-diagram');
+        delay = 260;
+      } else {
+        delay = 60 + n * (el.matches(SLOW_STEP) ? 150 : 80);
+        n++;
+      }
+      el.style.setProperty('--d', Math.min(delay, 1400) + 'ms');
+    });
+  });
+  let firstRender = true;
+
   function render(){
     slides.forEach((s, i) => {
       s.classList.remove('active', 'prev');
       if(i === current) s.classList.add('active');
       else if(i < current) s.classList.add('prev');
     });
+    const applyIn = () => slides.forEach((s, i) => s.classList.toggle('in', i === current));
+    if(firstRender){
+      firstRender = false;
+      void document.body.offsetWidth; // commit the hidden state so the first entrance animates too
+    }
+    applyIn();
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
     counterEl.textContent = (current + 1) + ' / ' + total;
     prevBtn.disabled = current === 0;
@@ -108,14 +139,32 @@
 
   // fit each slide's content inside the viewport with a safe bottom margin,
   // so text never touches the screen edge (desktop only; phones scroll)
+  const MIN_ZOOM = 0.55;
+  const MAX_ZOOM = 1.3;
   function fitSlides(){
     const mobile = window.matchMedia('(max-width: 640px)').matches;
-    const avail = window.innerHeight * 0.84;
+    const avail = window.innerHeight * 0.86;
     document.querySelectorAll('.slide > .content, .slide > .portada').forEach((el) => {
       el.style.zoom = 1;
       if(mobile) return;
-      const h = el.offsetHeight;
-      if(h > avail) el.style.zoom = Math.max(0.55, avail / h).toFixed(3);
+      const slide = el.parentElement;
+      // real rendered height, ignoring the slide's own transition scale
+      const realHeight = () => {
+        const k = slide.getBoundingClientRect().width / slide.offsetWidth || 1;
+        return el.getBoundingClientRect().height / k;
+      };
+      // grow when there is room (legible from far away), shrink when there is not
+      let z = 1;
+      for(let i = 0; i < 4; i++){
+        const h = realHeight();
+        if(Math.abs(h - avail) / avail < 0.03 && h <= avail) break;
+        z = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z * avail / h));
+        el.style.zoom = z.toFixed(3);
+      }
+      if(realHeight() > avail && z > MIN_ZOOM){
+        z = Math.max(MIN_ZOOM, z * avail / realHeight());
+        el.style.zoom = z.toFixed(3);
+      }
     });
   }
   window.addEventListener('resize', fitSlides);
