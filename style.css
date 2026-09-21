@@ -663,25 +663,6 @@ h2{
 body.nav-hidden .ui-nav{ transform: translate(-50%, 160%); opacity: 0; pointer-events: none; }
 body.nav-hidden .counter{ opacity: 0; pointer-events: none; }
 
-.nav-toggle{
-  position: fixed;
-  bottom: 2.4rem;
-  left: 2.2rem;
-  width: 2rem; height: 2rem;
-  border-radius: 50%;
-  border: 1px solid var(--panel-border);
-  background: rgba(19,26,43,.7);
-  color: var(--text-dim);
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-  z-index: 11;
-  transition: transform .3s ease, opacity .3s ease, color .2s, border-color .2s;
-}
-.nav-toggle:hover{ color: var(--text); border-color: var(--accent); }
-body.nav-hidden .nav-toggle{ transform: rotate(180deg); opacity: .35; }
-body.nav-hidden .nav-toggle:hover{ opacity: 1; }
-
 .fullscreen-btn{
   position: fixed;
   top: 1.8rem;
@@ -755,9 +736,7 @@ body.nav-hidden .nav-toggle:hover{ opacity: 1; }
   .nav-btn{ width: 1.8rem; height: 1.8rem; font-size: 1rem; }
   .dots{ gap: .35rem; }
   .dot{ width: 6px; height: 6px; }
-  .counter{ bottom: 1rem; right: .7rem; font-size: .7rem; }
-  .nav-toggle{ bottom: .8rem; left: .7rem; width: 1.8rem; height: 1.8rem; font-size: 1rem; }
-  .fullscreen-btn{ top: .7rem; right: .7rem; width: 2rem; height: 2rem; font-size: .9rem; }
+  .counter{ bottom: 1rem; right: .7rem; font-size: .7rem; }  .fullscreen-btn{ top: .7rem; right: .7rem; width: 2rem; height: 2rem; font-size: .9rem; }
 
   .formula-float-layer, .node-bg-layer{ display: none; }
 }

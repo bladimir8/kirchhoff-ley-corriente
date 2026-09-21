@@ -80,20 +80,31 @@
   });
   document.addEventListener('fullscreenchange', updateFsAttention);
 
-  // hideable nav: auto-hides in fullscreen so it never covers slide text
-  const navToggle = document.getElementById('navToggle');
-  function setNavHidden(hidden){
-    document.body.classList.toggle('nav-hidden', hidden);
+  // auto-hiding nav: hides after 2s, reappears when the pointer nears the
+  // bottom of the screen, then hides again 2s after the pointer leaves
+  const navEl = document.querySelector('.ui-nav');
+  const HIDE_DELAY = 2000;
+  const REVEAL_ZONE = 140;
+  let hideTimer = null;
+
+  function scheduleHide(){
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      if(navEl.matches(':hover')) scheduleHide();
+      else document.body.classList.add('nav-hidden');
+    }, HIDE_DELAY);
   }
-  navToggle.addEventListener('click', () => {
-    setNavHidden(!document.body.classList.contains('nav-hidden'));
+  function revealNav(){
+    document.body.classList.remove('nav-hidden');
+    scheduleHide();
+  }
+  document.addEventListener('pointermove', (e) => {
+    if(e.clientY >= window.innerHeight - REVEAL_ZONE) revealNav();
   });
-  document.addEventListener('fullscreenchange', () => {
-    setNavHidden(!!document.fullscreenElement);
+  document.addEventListener('pointerdown', (e) => {
+    if(e.clientY >= window.innerHeight - REVEAL_ZONE) revealNav();
   });
-  document.addEventListener('keydown', (e) => {
-    if(e.key === 'h' || e.key === 'H') navToggle.click();
-  });
+  revealNav();
 
   render();
 })();
