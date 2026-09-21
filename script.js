@@ -106,5 +106,23 @@
   });
   revealNav();
 
+  // fit each slide's content inside the viewport with a safe bottom margin,
+  // so text never touches the screen edge (desktop only; phones scroll)
+  function fitSlides(){
+    const mobile = window.matchMedia('(max-width: 640px)').matches;
+    const avail = window.innerHeight * 0.84;
+    document.querySelectorAll('.slide > .content, .slide > .portada').forEach((el) => {
+      el.style.zoom = 1;
+      if(mobile) return;
+      const h = el.offsetHeight;
+      if(h > avail) el.style.zoom = Math.max(0.55, avail / h).toFixed(3);
+    });
+  }
+  window.addEventListener('resize', fitSlides);
+  document.addEventListener('fullscreenchange', () => setTimeout(fitSlides, 150));
+  window.addEventListener('load', fitSlides);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitSlides);
+  fitSlides();
+
   render();
 })();
