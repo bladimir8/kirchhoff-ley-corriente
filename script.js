@@ -80,5 +80,20 @@
   });
   document.addEventListener('fullscreenchange', updateFsAttention);
 
+  // hideable nav: auto-hides in fullscreen so it never covers slide text
+  const navToggle = document.getElementById('navToggle');
+  function setNavHidden(hidden){
+    document.body.classList.toggle('nav-hidden', hidden);
+  }
+  navToggle.addEventListener('click', () => {
+    setNavHidden(!document.body.classList.contains('nav-hidden'));
+  });
+  document.addEventListener('fullscreenchange', () => {
+    setNavHidden(!!document.fullscreenElement);
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'h' || e.key === 'H') navToggle.click();
+  });
+
   render();
 })();
