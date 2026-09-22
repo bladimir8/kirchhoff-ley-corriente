@@ -12,10 +12,29 @@
   slides.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.className = 'dot';
+    dot.tabIndex = 0;
+    dot.setAttribute('role', 'button');
+    dot.setAttribute('aria-label', 'Ir a la diapositiva ' + (i + 1));
     dot.addEventListener('click', () => goTo(i));
+    dot.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); goTo(i); }
+    });
     dotsEl.appendChild(dot);
   });
   const dots = Array.from(dotsEl.children);
+
+  // signature motion: cover wires trace in like a drafting pen, then the
+  // node ignites (see .js .portada-node svg .wire in style.css)
+  const heroWires = Array.from(document.querySelectorAll('.portada-node svg .wire'));
+  heroWires.forEach((el) => {
+    const len = Math.ceil(el.getTotalLength());
+    el.dataset.len = len;
+    el.style.strokeDasharray = len;
+    el.style.strokeDashoffset = len;
+  });
+  function drawHeroWires(on){
+    heroWires.forEach((el) => { el.style.strokeDashoffset = on ? '0' : el.dataset.len; });
+  }
 
   // ---- staggered entrance: tag each slide's elements and give them a delay ----
   document.documentElement.classList.add('js');
@@ -48,14 +67,17 @@
       if(i === current) s.classList.add('active');
       else if(i < current) s.classList.add('prev');
     });
-    const applyIn = () => slides.forEach((s, i) => s.classList.toggle('in', i === current));
+    const applyIn = () => {
+      slides.forEach((s, i) => s.classList.toggle('in', i === current));
+      drawHeroWires(current === 0);
+    };
     if(firstRender){
       firstRender = false;
       void document.body.offsetWidth; // commit the hidden state so the first entrance animates too
     }
     applyIn();
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    counterEl.textContent = (current + 1) + ' / ' + total;
+    counterEl.textContent = 'Lám. ' + String(current + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
     prevBtn.disabled = current === 0;
     nextBtn.disabled = current === total - 1;
     updateFsAttention();

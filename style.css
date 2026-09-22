@@ -9,10 +9,13 @@
   --accent-2: #5ec8ff;
   --green: #5fd88f;
   --red: #ff6b6b;
-  --violet: #b491f0;
-  --pink: #ff8fc0;
-  --teal: #4fd1c5;
   --wire: #3c4f70;
+  /* IBM Plex was drawn for technical/engineering products — the display cut
+     reads like drafting-plate lettering, the mono cut like an instrument
+     readout, so both carry the blueprint identity without costuming it. */
+  --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'IBM Plex Sans Condensed', var(--font-body);
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', monospace;
 }
 
 *{ box-sizing: border-box; margin:0; padding:0; }
@@ -22,8 +25,32 @@ html, body{
   height:100%;
   background: var(--bg);
   color: var(--text);
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body);
   overflow: hidden;
+}
+
+::selection{ background: var(--accent-2); color: #06111e; }
+
+::-webkit-scrollbar{ width: 10px; height: 10px; }
+::-webkit-scrollbar-track{ background: var(--bg-2); }
+::-webkit-scrollbar-thumb{ background: var(--panel-border); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover{ background: var(--accent-2); }
+
+:focus-visible{ outline: 2px solid var(--accent-2); outline-offset: 2px; }
+
+/* ---- Drafting-sheet frame: corner registration marks on the whole deck ---- */
+.deck::before, .deck::after{
+  content: '';
+  position: fixed;
+  width: 26px; height: 26px;
+  border-color: rgba(94,200,255,.35);
+  pointer-events: none;
+  z-index: 5;
+}
+.deck::before{ top: 14px; left: 14px; border-top: 1.5px solid; border-left: 1.5px solid; }
+.deck::after{ bottom: 14px; right: 14px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+@media (max-width: 640px){
+  .deck::before, .deck::after{ display: none; }
 }
 
 .deck{
@@ -81,6 +108,12 @@ html, body{
 }
 .js .rv.rv-diagram{ transform: scale(.94); }
 
+/* signature moment: the cover's wires trace in like a pen drafting the
+   schematic, before the node ignites — see script.js drawHeroWires() */
+.js .portada-node svg .wire{
+  transition: stroke-dashoffset .9s cubic-bezier(.65,0,.35,1) .22s;
+}
+
 /* the node is the subject of the whole deck: it arrives with one pulse */
 .js .slide .node-dot.big{
   transform-box: fill-box;
@@ -114,6 +147,7 @@ html, body{
   text-transform: uppercase;
   font-size: .85rem;
   margin-bottom: 1.2rem;
+  font-family: var(--font-mono);
 }
 
 .bio-strip{
@@ -135,22 +169,22 @@ html, body{
 }
 .bio-strip .ref{ margin-top: 0; }
 .portada h1{
-  font-size: 3.4rem;
-  line-height: 1.15;
+  font-family: var(--font-display);
+  font-size: 3.8rem;
+  line-height: 1.1;
   font-weight: 700;
-  background: linear-gradient(90deg, #fff, var(--accent-2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  letter-spacing: -.01em;
+  color: var(--text);
   margin-bottom: 1rem;
 }
+.portada h1 .accent-line{ color: var(--accent-2); }
 .subtitle{
   color: var(--text-dim);
   font-size: 1.2rem;
   margin-bottom: 2.5rem;
 }
 .subtitle strong{ color: var(--text); }
-.portada-node svg{ width: 260px; height: auto; margin: 0 auto 2.5rem; display:block; }
+.portada-node svg{ width: 320px; height: auto; margin: 0 auto 2.5rem; display:block; }
 .portada-footer{
   display:flex;
   justify-content: center;
@@ -163,6 +197,7 @@ html, body{
   letter-spacing: .1em;
   font-size: .7rem;
   color: var(--text-dim);
+  font-family: var(--font-mono);
 }
 .footer-block .fill{
   color: var(--accent-2);
@@ -186,18 +221,13 @@ html, body{
   max-width: 1100px;
   width: 100%;
 }
-.eyebrow{
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: .25em;
-  font-size: .75rem;
-  margin-bottom: .8rem;
-}
 h2{
-  font-size: 2.3rem;
-  line-height: 1.25;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  line-height: 1.2;
   margin-bottom: 1.3rem;
   font-weight: 700;
+  letter-spacing: -.005em;
 }
 .lead{
   font-size: 1.2rem;
@@ -214,7 +244,7 @@ h2{
   flex-wrap: wrap;
   background: var(--panel);
   border: 1px solid var(--panel-border);
-  border-radius: 14px;
+  border-radius: 4px;
   padding: 1.4rem 1.8rem;
   margin: 1.5rem 0;
 }
@@ -223,22 +253,43 @@ h2{
   font-weight: 700;
   color: var(--accent-2);
   font-family: 'Cambria Math', Georgia, serif;
+  font-variant-numeric: tabular-nums;
 }
 .formula-alt{ color: var(--text-dim); font-size: .95rem; }
 .formula-box.final{ justify-content: center; }
 .formula-box.final .formula{ font-size: 2rem; }
 
+/* drafting-plate card: corner registration marks instead of a colored
+   side-tab — the same bracket motif framing the whole deck (.deck::before) */
 .card{
+  position: relative;
   background: var(--panel);
   border: 1px solid var(--panel-border);
-  border-left: 3px solid var(--accent-2);
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 1.3rem 1.6rem;
   margin-top: 1.2rem;
+  --tag: var(--accent-2);
 }
-.card h3{ font-size: 1rem; color: var(--accent-2); margin-bottom: .5rem; }
+.card::before, .card::after{
+  content: '';
+  position: absolute;
+  width: 9px; height: 9px;
+  border-color: var(--tag);
+  pointer-events: none;
+}
+.card::before{ top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+.card::after{ bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
+.card h3{
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--tag);
+  margin-bottom: .6rem;
+}
 .card p{ color: var(--text-dim); line-height: 1.55; }
-.card.highlight{ border-left-color: var(--accent); }
+.card.highlight{ --tag: var(--accent); }
 .card.highlight p{ color: var(--text); }
 
 .ref{
@@ -278,10 +329,10 @@ h2{
 .check-list.big li{ font-size: 1.05rem; }
 
 .two-col-cards{ display:grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1.6rem; }
-.card.accent-green{ border-left-color: var(--green); }
-.card.accent-red{ border-left-color: var(--red); }
+.card.accent-green{ --tag: var(--green); }
+.card.accent-red{ --tag: var(--red); }
 .proc-extra{ margin-top: 1.8rem; padding-top: 1.6rem; border-top: 1px solid var(--panel-border); align-items: start; }
-.sub-heading{ font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: .6rem; }
+.sub-heading{ font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: .6rem; }
 .lead.small{ font-size: 1rem; margin-bottom: 1rem; }
 .ground-line{ stroke: var(--text-dim); stroke-width: 2; }
 
@@ -300,7 +351,7 @@ h2{
   flex: 1;
   background: var(--panel);
   border: 1px solid var(--panel-border);
-  border-radius: 10px;
+  border-radius: 4px;
   padding: .6rem .8rem .8rem;
 }
 .mini-item svg{ width: 100%; height: auto; display: block; }
@@ -354,7 +405,7 @@ h2{
 .proc-step{
   background: var(--panel);
   border: 1px solid var(--panel-border);
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 1.2rem;
   display:flex;
   flex-direction: column;
@@ -374,12 +425,12 @@ h2{
 .solve-box{
   background: var(--panel);
   border: 1px solid var(--panel-border);
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 1.4rem 1.6rem;
   margin: 1rem 0;
   font-family: 'Cambria Math', Georgia, serif;
 }
-.solve-line{ font-size: 1.15rem; padding: .3rem 0; color: var(--text-dim); }
+.solve-line{ font-size: 1.15rem; padding: .3rem 0; color: var(--text-dim); font-variant-numeric: tabular-nums; }
 .solve-line.result{
   color: var(--green);
   font-weight: 700;
@@ -397,19 +448,29 @@ h2{
   margin-top: 1.4rem;
 }
 .error-card{
+  position: relative;
   background: var(--panel);
   border: 1px solid var(--panel-border);
-  border-left: 3px solid var(--red);
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 1rem 1.3rem;
   display:flex;
   gap: .9rem;
   align-items: flex-start;
 }
+.error-card::before, .error-card::after{
+  content: '';
+  position: absolute;
+  width: 9px; height: 9px;
+  border-color: var(--red);
+  pointer-events: none;
+}
+.error-card::before{ top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+.error-card::after{ bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
 .error-card .icon{
   color: var(--red);
   font-weight: 700;
   flex-shrink: 0;
+  font-family: var(--font-mono);
 }
 .error-card p{ color: var(--text-dim); font-size: .92rem; line-height: 1.45; }
 .error-card p strong{ color: var(--text); }
@@ -426,7 +487,7 @@ h2{
 .flow{ fill: var(--accent-2); }
 .flow.in-flow{ fill: var(--green); }
 .flow.out-flow{ fill: var(--red); }
-.svg-label{ fill: var(--text-dim); font-size: 14px; font-family: inherit; }
+.svg-label{ fill: var(--text-dim); font-size: 14px; font-family: var(--font-mono); }
 .svg-label.entra{ fill: var(--green); font-weight: 600; }
 .svg-label.sale{ fill: var(--red); font-weight: 600; }
 .svg-label.warn-label{ fill: var(--accent); font-weight: 600; }
@@ -525,17 +586,19 @@ h2{
   font-weight: 700;
   white-space: nowrap;
 }
+/* palette tied to the deck's own functional colors (entra=celeste, sale=rojo,
+   acento=dorado) instead of the previous six mismatched hues */
 .float-formula.f1{ top: 10%; left: 6%; font-size: 2.6rem; color: var(--accent-2);
   animation: floatDrift 10s ease-in-out infinite, formulaFlash 13s ease-in-out infinite 0s; }
-.float-formula.f2{ top: 72%; left: 10%; font-size: 1.8rem; color: var(--green);
+.float-formula.f2{ top: 72%; left: 10%; font-size: 1.8rem; color: var(--accent);
   animation: floatDrift 8s ease-in-out infinite .6s, formulaFlash 13s ease-in-out infinite 2.2s; }
-.float-formula.f3{ top: 16%; right: 6%; font-size: 2rem; color: var(--accent);
+.float-formula.f3{ top: 16%; right: 6%; font-size: 2rem; color: var(--accent-2);
   animation: floatDrift 11s ease-in-out infinite 1.4s, formulaFlash 13s ease-in-out infinite 4.4s; }
-.float-formula.f4{ top: 82%; right: 8%; font-size: 1.6rem; color: var(--violet);
+.float-formula.f4{ top: 82%; right: 8%; font-size: 1.6rem; color: var(--red);
   animation: floatDrift 9.5s ease-in-out infinite .3s, formulaFlash 13s ease-in-out infinite 6.6s; }
-.float-formula.f5{ top: 45%; left: 2%; font-size: 1.7rem; color: var(--pink);
+.float-formula.f5{ top: 45%; left: 2%; font-size: 1.7rem; color: var(--accent);
   animation: floatDrift 7.5s ease-in-out infinite 2s, formulaFlash 13s ease-in-out infinite 8.8s; }
-.float-formula.f6{ top: 48%; right: 3%; font-size: 3.4rem; color: var(--teal);
+.float-formula.f6{ top: 48%; right: 3%; font-size: 3.4rem; color: var(--red);
   animation: floatDrift 12s ease-in-out infinite .9s, formulaFlash 13s ease-in-out infinite 11s; }
 
 .formula-float-layer.strong .float-formula{ animation-name: floatDrift, formulaFlashStrong; }
@@ -572,15 +635,17 @@ h2{
 .bg-node line{ stroke: var(--c, var(--accent-2)); stroke-width: 2; }
 .bg-node circle{ fill: var(--c, var(--accent-2)); }
 .bg-node path{ stroke: var(--c, var(--accent-2)); stroke-width: 2; fill: none; }
+/* palette held to the deck's own four functional colors (celeste=entra/tinta,
+   dorado=acento, verde=correcto, rojo=sale) instead of decorative extras */
 .bg-node.n1{ top: 8%;  left: 6%;  width: 70px; --r: 0deg;   --c: var(--accent-2); animation-delay: 0s; }
 .bg-node.n2{ top: 20%; right: 10%; width: 110px; --r: 25deg; --c: var(--green); animation-delay: 1.3s; }
 .bg-node.n3{ top: 62%; left: 4%;  width: 85px;  --r: -15deg; --c: var(--accent); animation-delay: 2.6s; }
-.bg-node.n4{ top: 78%; right: 14%; width: 65px; --r: 10deg;  --c: var(--violet); animation-delay: 3.9s; }
-.bg-node.n5{ top: 40%; right: 3%;  width: 75px; --r: -30deg; --c: var(--pink); animation-delay: 5.2s; }
-.bg-node.n6{ top: 4%;  left: 42%; width: 60px;  --r: 60deg;  --c: var(--teal); animation-delay: 6.5s; }
+.bg-node.n4{ top: 78%; right: 14%; width: 65px; --r: 10deg;  --c: var(--accent-2); animation-delay: 3.9s; }
+.bg-node.n5{ top: 40%; right: 3%;  width: 75px; --r: -30deg; --c: var(--green); animation-delay: 5.2s; }
+.bg-node.n6{ top: 4%;  left: 42%; width: 60px;  --r: 60deg;  --c: var(--accent); animation-delay: 6.5s; }
 .bg-node.n7{ bottom: 4%; left: 30%; width: 80px; --r: -50deg; --c: var(--accent-2); animation-delay: 7.8s; }
-.bg-node.n8{ top: 32%; left: 22%; width: 65px;  --r: 15deg;  --c: var(--pink); animation-delay: 8.4s; }
-.bg-node.n9{ top: 68%; right: 38%; width: 95px; --r: -40deg; --c: var(--teal); animation-delay: 4.6s; }
+.bg-node.n8{ top: 32%; left: 22%; width: 65px;  --r: 15deg;  --c: var(--green); animation-delay: 8.4s; }
+.bg-node.n9{ top: 68%; right: 38%; width: 95px; --r: -40deg; --c: var(--accent); animation-delay: 4.6s; }
 @keyframes bgNodePulse{
   0%, 85%, 100%{ opacity: .05; transform: scale(.9) rotate(var(--r, 0deg)); filter: drop-shadow(0 0 0 transparent); }
   92%{ opacity: .4; transform: scale(1.15) rotate(var(--r, 0deg)); filter: drop-shadow(0 0 6px var(--c, var(--accent-2))); }
@@ -691,12 +756,21 @@ h2{
 }
 .dot.active{ background: var(--accent); transform: scale(1.3); }
 
+/* title-block plate, like the sheet reference in the corner of a drawing */
 .counter{
   position: fixed;
   bottom: 2.4rem;
   right: 2.2rem;
+  padding: .4rem .75rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 3px;
+  background: rgba(19,26,43,.7);
+  backdrop-filter: blur(10px);
   color: var(--text-dim);
-  font-size: .85rem;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
   z-index: 10;
   font-variant-numeric: tabular-nums;
 }
@@ -709,12 +783,14 @@ body.nav-hidden .counter{ opacity: 0; pointer-events: none; }
   position: fixed;
   top: 1.8rem;
   right: 1.8rem;
-  width: 2.4rem; height: 2.4rem;
-  border-radius: 8px;
+  width: 2.75rem; height: 2.75rem;
+  border-radius: 4px;
   border: 1px solid var(--panel-border);
   background: rgba(19,26,43,.7);
   color: var(--text-dim);
-  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   z-index: 10;
 }
@@ -752,7 +828,6 @@ body.nav-hidden .counter{ opacity: 0; pointer-events: none; }
   .content.split .col-text{ margin-bottom: 1.6rem; }
   .split.diagram-emphasis{ grid-template-columns: 1fr; }
 
-  .eyebrow{ font-size: .68rem; }
   h2{ font-size: 1.25rem; }
   .lead, .lead.small{ font-size: .92rem; }
   .card p, .card h3, .ref, .check-list li, .step-list li, .sub-list li, .proc-step p, .error-card p, .mini-caption, .biblio-list li{ font-size: .86rem; }
@@ -778,7 +853,8 @@ body.nav-hidden .counter{ opacity: 0; pointer-events: none; }
   .nav-btn{ width: 1.8rem; height: 1.8rem; font-size: 1rem; }
   .dots{ gap: .35rem; }
   .dot{ width: 6px; height: 6px; }
-  .counter{ bottom: 1rem; right: .7rem; font-size: .7rem; }  .fullscreen-btn{ top: .7rem; right: .7rem; width: 2rem; height: 2rem; font-size: .9rem; }
+  .counter{ bottom: 1rem; right: .7rem; font-size: .7rem; }
+  .fullscreen-btn{ top: .7rem; right: .7rem; width: 2.5rem; height: 2.5rem; font-size: .9rem; }
 
   .formula-float-layer, .node-bg-layer{ display: none; }
 }
@@ -792,6 +868,7 @@ body.nav-hidden .counter{ opacity: 0; pointer-events: none; }
   .js .slide .node-dot.big{ transform: none; }
   .js .slide.in .node-dot.big{ transition: opacity .25s ease; }
   .float-formula, .bg-node, .pulse-ring, .flow-dash, .phase-assumed, .phase-real{ animation: none !important; }
+  .js .portada-node svg .wire{ stroke-dashoffset: 0 !important; transition: none !important; }
   .fullscreen-btn.attention{ animation: none; }
   .ui-nav, .counter{ transition: opacity .2s ease; }
   body.nav-hidden .ui-nav{ transform: translateX(-50%); }
