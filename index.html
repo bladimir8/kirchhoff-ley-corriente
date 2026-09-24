@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
@@ -42,7 +42,7 @@
       <div class="portada-footer">
         <div class="footer-block">
           <span class="label">Integrantes</span>
-          <span class="fill">David Arenas Estrada<br>Agustín de León<br>Edgardo Ledezma<br>Bladimir Vahos</span>
+          <span class="fill">David Arenas Estrada<br>Agustín de León<br>Edgardo Ledezma<br>Bladimir Vahos<br>Abdiel Rojas</span>
         </div>
         <div class="footer-block">
           <span class="label">Materia</span>
@@ -132,7 +132,7 @@
         <ul class="check-list">
           <li>Es un punto de conexión, no un componente.</li>
           <li>Todo el nodo está al mismo potencial eléctrico.</li>
-          <li>Une varias <strong>ramas</strong> cada rama puede contener resistencias, fuentes, etc.</li>
+          <li>Une varias <strong>ramas</strong>: cada rama puede contener resistencias, fuentes, etc.</li>
           <li>Si solo se unen dos conductores, es simplemente un empalme, no un nodo relevante para el análisis.</li>
         </ul>
 
@@ -187,8 +187,8 @@
           <circle class="flow" r="3"><animateMotion dur="1.7s" repeatCount="indefinite" path="M30,40 L160,130"></animateMotion></circle>
           <circle class="flow" r="3"><animateMotion dur="2.4s" repeatCount="indefinite" path="M30,130 L70,130 L74,122 L82,138 L90,122 L98,138 L106,130 L160,130"></animateMotion></circle>
           <circle class="flow" r="3"><animateMotion dur="1.9s" repeatCount="indefinite" path="M30,220 L160,130"></animateMotion></circle>
-          <circle class="flow" r="3"><animateMotion dur="1.5s" repeatCount="indefinite" path="M290,70 L160,130"></animateMotion></circle>
-          <circle class="flow" r="3"><animateMotion dur="1.6s" repeatCount="indefinite" path="M290,190 L160,130"></animateMotion></circle>
+          <circle class="flow" r="3"><animateMotion dur="1.5s" repeatCount="indefinite" path="M160,130 L290,70"></animateMotion></circle>
+          <circle class="flow" r="3"><animateMotion dur="1.6s" repeatCount="indefinite" path="M160,130 L290,190"></animateMotion></circle>
 
           <text class="svg-label" x="160" y="105" text-anchor="middle">Nodo</text>
           <text class="svg-label small" x="80" y="66" text-anchor="middle">R₂</text>
@@ -206,7 +206,7 @@
               <line class="wire out" x1="10" y1="90" x2="70" y2="60"></line>
               <circle class="node-dot" cx="70" cy="60" r="6"></circle>
             </svg>
-            <p class="mini-caption bad">✕ Empalme solo 2 conductores</p>
+            <p class="mini-caption bad">✕ Empalme: solo 2 conductores</p>
           </div>
           <div class="mini-item">
             <svg viewBox="0 0 140 100">
@@ -215,7 +215,7 @@
               <line class="wire out" x1="70" y1="55" x2="130" y2="55"></line>
               <circle class="node-dot big" cx="70" cy="55" r="6"></circle>
             </svg>
-            <p class="mini-caption good">✓ Nodo 3 o más conductores</p>
+            <p class="mini-caption good">✓ Nodo: 3 o más conductores</p>
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@
     <div class="content split">
       <div class="col-text">
         <h2>Corrientes entrantes y salientes</h2>
-        <p class="lead">Que la corriente que entra a un nodo sea igual a la que sale significa que <strong>no hay acumulación de carga</strong> en ningún punto del circuito en estado estable.</p>
+        <p class="lead">Que la corriente que entra a un nodo sea igual a la que sale significa que <strong>no hay acumulación de carga</strong> en ningún nodo del circuito.</p>
 
         <div class="formula-box">
           <span class="formula">I₁ + I₂ − I₃ − I₄ = 0</span>
@@ -317,13 +317,13 @@
       <div class="col-text">
         <h2>¿Cómo se asignan los sentidos de corriente en un nodo?</h2>
         <ol class="step-list">
-          <li><strong>Se asume arbitrariamente</strong> un sentido para cada corriente desconocida (entrando o saliendo del nodo) no es necesario conocer el sentido real de antemano.</li>
+          <li><strong>Se asume arbitrariamente</strong> un sentido para cada corriente desconocida (entrando o saliendo del nodo); no es necesario conocer el sentido real de antemano.</li>
           <li>Se plantea la ecuación de KCL respetando esa suposición (positivo si entra, negativo si sale, o viceversa).</li>
           <li>Se resuelve el sistema de ecuaciones.</li>
           <li>Se interpreta el resultado:
             <ul class="sub-list">
               <li class="ok">Si el valor es <strong>positivo</strong>, el sentido asumido era el correcto.</li>
-              <li class="warn">Si el valor es <strong>negativo</strong>, la corriente real fluye en sentido <strong>contrario</strong> al asumido la magnitud sigue siendo válida.</li>
+              <li class="warn">Si el valor es <strong>negativo</strong>, la corriente real fluye en sentido <strong>contrario</strong> al asumido; la magnitud sigue siendo válida.</li>
             </ul>
           </li>
         </ol>
@@ -333,9 +333,9 @@
         </div>
 
         <div class="formula-box compact standalone">
-          <span class="formula">I<sub>x</sub> &lt; 0 ⟹ I<sub>real</sub> = |I<sub>x</sub>|, sentido opuesto</span>
+          <span class="formula">Si I<sub>x</sub> &lt; 0: I<sub>real</sub> = |I<sub>x</sub>|, sentido opuesto</span>
         </div>
-        <p class="ref">Esto funciona porque invertir el sentido supuesto de una corriente equivale, algebraicamente, a cambiarle el signo dentro del sistema de ecuaciones (I<sub>x</sub> → −I<sub>x</sub>). Por eso <strong>no es necesario adivinar el sentido correcto antes de resolver</strong>: cualquier suposición inicial lleva al mismo resultado físico una vez interpretado el signo. Si se invierten <em>todas</em> las suposiciones de un mismo nodo a la vez, la ecuación resultante es la misma multiplicada por −1.</p>
+        <p class="ref">Esto funciona porque invertir el sentido supuesto de una corriente equivale, algebraicamente, a cambiarle el signo dentro del sistema de ecuaciones (I<sub>x</sub> pasa a ser −I<sub>x</sub>). Por eso <strong>no es necesario adivinar el sentido correcto antes de resolver</strong>: cualquier suposición inicial lleva al mismo resultado físico una vez interpretado el signo. Si se invierten <em>todas</em> las suposiciones de un mismo nodo a la vez, la ecuación resultante es la misma multiplicada por −1.</p>
       </div>
 
       <div class="col-diagram">
@@ -361,7 +361,7 @@
               <animate attributeName="stroke-dashoffset" from="18" to="0" dur=".8s" repeatCount="indefinite"></animate>
             </line>
             <circle class="real-flow" r="4"><animateMotion dur="1.6s" repeatCount="indefinite" path="M220,90 L110,90"></animateMotion></circle>
-            <text class="svg-label good-label" x="165" y="65" text-anchor="middle">I = −5 A → entra</text>
+            <text class="svg-label good-label" x="165" y="65" text-anchor="middle">I = −5 A: entra</text>
           </g>
 
           <circle class="node-dot big" cx="110" cy="90" r="9"></circle>
@@ -378,6 +378,7 @@
       <span class="float-formula f1" style="font-size:1.7rem;">David Arenas Estrada</span>
       <span class="float-formula f2" style="font-size:1.7rem;">Bladimir Vahos</span>
       <span class="float-formula f3" style="font-size:1.5rem;">Física Aplicada II</span>
+      <span class="float-formula f4" style="font-size:1.7rem;">Abdiel Rojas</span>
       <span class="float-formula f5" style="font-size:1.7rem;">Agustín de León</span>
       <span class="float-formula f6" style="font-size:1.7rem;">Edgardo Ledezma</span>
     </div>
@@ -391,7 +392,7 @@
         <div class="proc-step"><span class="num">5</span><p>Resolver el <strong>sistema de ecuaciones</strong> simultáneas.</p></div>
         <div class="proc-step"><span class="num">6</span><p>Verificar signos: reinterpretar el sentido real de cada corriente.</p></div>
       </div>
-      <p class="ref">En un circuito con <strong>n</strong> nodos, solo se necesitan <strong>n − 1</strong> ecuaciones de nodo independientes la última siempre es combinación lineal de las anteriores.</p>
+      <p class="ref">En un circuito con <strong>n</strong> nodos, solo se necesitan <strong>n − 1</strong> ecuaciones de nodo independientes: la última siempre es combinación lineal de las anteriores.</p>
 
       <div class="split proc-extra">
         <div class="col-text">
@@ -409,24 +410,29 @@
         </div>
         <div class="col-diagram">
           <svg viewBox="0 0 260 150">
-            <line class="wire" x1="30" y1="40" x2="30" y2="110"></line>
-            <line class="wire" x1="30" y1="75" x2="130" y2="75"></line>
-            <path class="comp" d="M50,75 L58,75 L62,67 L70,83 L78,67 L86,83 L90,75 L98,75"></path>
-            <circle class="node-dot" cx="30" cy="75" r="6"></circle>
-            <circle class="node-dot big" cx="130" cy="75" r="7"></circle>
-            <line class="wire" x1="130" y1="75" x2="230" y2="75"></line>
-            <path class="comp" d="M150,75 L158,75 L162,67 L170,83 L178,67 L186,83 L190,75 L198,75"></path>
-            <circle class="node-dot" cx="230" cy="75" r="6"></circle>
-            <line class="wire" x1="30" y1="110" x2="230" y2="110"></line>
-            <line class="wire" x1="130" y1="75" x2="130" y2="110"></line>
-            <line class="ground-line" x1="15" y1="122" x2="45" y2="122"></line>
-            <line class="ground-line" x1="21" y1="128" x2="39" y2="128"></line>
-            <line class="ground-line" x1="27" y1="134" x2="33" y2="134"></line>
-            <line class="wire" x1="30" y1="110" x2="30" y2="122"></line>
-            <text class="svg-label small" x="30" y="30" text-anchor="middle">V₁</text>
-            <text class="svg-label small" x="130" y="60" text-anchor="middle">V₂</text>
-            <text class="svg-label small" x="230" y="30" text-anchor="middle">V₃</text>
-            <text class="svg-label small" x="52" y="126" text-anchor="start">nodo de referencia (0 V)</text>
+            <line class="wire" x1="30" y1="50" x2="230" y2="50"></line>
+            <line class="wire" x1="30" y1="50" x2="30" y2="120"></line>
+            <line class="wire" x1="130" y1="50" x2="130" y2="120"></line>
+            <line class="wire" x1="230" y1="50" x2="230" y2="120"></line>
+            <line class="wire" x1="30" y1="120" x2="230" y2="120"></line>
+            <path class="comp" d="M50,50 L58,50 L62,42 L70,58 L78,42 L86,58 L90,50 L98,50"></path>
+            <path class="comp" d="M150,50 L158,50 L162,42 L170,58 L178,42 L186,58 L190,50 L198,50"></path>
+            <path class="comp" d="M130,67 L122,71 L138,79 L122,87 L138,95 L130,103"></path>
+            <path class="comp" d="M230,67 L222,71 L238,79 L222,87 L238,95 L230,103"></path>
+            <line class="comp w2" x1="21" y1="81" x2="39" y2="81"></line>
+            <line class="comp w4" x1="25" y1="89" x2="35" y2="89"></line>
+            <circle class="node-dot" cx="30" cy="50" r="6"></circle>
+            <circle class="node-dot big" cx="130" cy="50" r="7"></circle>
+            <circle class="node-dot" cx="230" cy="50" r="6"></circle>
+            <circle class="node-dot" cx="130" cy="120" r="5"></circle>
+            <line class="wire" x1="30" y1="120" x2="30" y2="130"></line>
+            <line class="ground-line" x1="15" y1="130" x2="45" y2="130"></line>
+            <line class="ground-line" x1="21" y1="136" x2="39" y2="136"></line>
+            <line class="ground-line" x1="27" y1="142" x2="33" y2="142"></line>
+            <text class="svg-label small" x="30" y="36" text-anchor="middle">V₁</text>
+            <text class="svg-label small" x="130" y="36" text-anchor="middle">V₂</text>
+            <text class="svg-label small" x="230" y="36" text-anchor="middle">V₃</text>
+            <text class="svg-label small" x="52" y="140" text-anchor="start">nodo de referencia (0 V)</text>
           </svg>
           <p class="diagram-caption">Un nodo se fija como referencia (tierra); las demás tensiones se calculan respecto a él.</p>
         </div>
@@ -448,7 +454,7 @@
       <svg class="bg-node n9" viewBox="0 0 60 60"><line x1="2" y1="30" x2="14" y2="30"></line><path d="M14,30 L19,22 L27,38 L35,22 L43,38 L48,30"></path><line x1="48" y1="30" x2="58" y2="30"></line></svg>
     </div>
     <div class="content">
-      <h2>Circuito en serie la misma corriente en todo el lazo</h2>
+      <h2>Circuito en serie: la misma corriente en todo el lazo</h2>
       <div class="split">
         <div class="col-diagram">
           <svg viewBox="0 0 320 240">
@@ -468,12 +474,9 @@
             <text class="svg-label small" x="70" y="104" text-anchor="middle">+</text>
             <text class="svg-label small" x="70" y="128" text-anchor="middle">−</text>
 
-            <circle class="node-dot" cx="70" cy="40" r="4.5"></circle>
-            <circle class="node-dot" cx="180" cy="40" r="4.5"></circle>
-            <circle class="node-dot" cx="280" cy="40" r="4.5"></circle>
-            <circle class="node-dot" cx="280" cy="190" r="4.5"></circle>
             <circle class="node-dot" cx="70" cy="190" r="4.5"></circle>
 
+            <line class="wire" x1="70" y1="190" x2="70" y2="200"></line>
             <line class="ground-line" x1="55" y1="200" x2="85" y2="200"></line>
             <line class="ground-line" x1="61" y1="206" x2="79" y2="206"></line>
             <line class="ground-line" x1="67" y1="212" x2="73" y2="212"></line>
@@ -500,14 +503,14 @@
           <p class="diagram-caption">Sin bifurcaciones, la corriente es la misma en cada punto del lazo.</p>
         </div>
         <div class="col-text">
-          <p class="lead">Datos: V<sub>in</sub> = 15 V, y las caídas V<sub>R1</sub> = 5 V, V<sub>R2</sub> = 3 V, V<sub>R4</sub> = −1 V. Se pide hallar V<sub>R3</sub>.</p>
+          <p class="lead">Datos: V<sub>in</sub> = 15 V, y las caídas V<sub>R1</sub> = 5 V, V<sub>R2</sub> = 3 V, V<sub>R4</sub> = 1 V. Se pide hallar V<sub>R3</sub>.</p>
           <div class="solve-box">
             <p class="solve-line">Σ V = 0 (KVL alrededor de la malla)</p>
             <p class="solve-line">−V<sub>in</sub> + V<sub>R1</sub> + V<sub>R2</sub> + V<sub>R3</sub> + V<sub>R4</sub> = 0</p>
-            <p class="solve-line">−15 + 5 + 3 + V<sub>R3</sub> + (−1) = 0</p>
-            <p class="solve-line result">V<sub>R3</sub> = 8 V</p>
+            <p class="solve-line">−15 + 5 + 3 + V<sub>R3</sub> + 1 = 0</p>
+            <p class="solve-line result">V<sub>R3</sub> = 6 V</p>
           </div>
-          <p class="ref">Como b, c, d y e solo unen dos conductores, no son nodos <strong>por KCL, la misma corriente recorre los cuatro elementos</strong>. El valor pedido se obtiene con KVL, la ley complementaria de KCL.</p>
+          <p class="ref">Como b, c, d y e solo unen dos conductores, no son nodos: <strong>por KCL, la misma corriente recorre los cuatro elementos</strong>. El valor pedido se obtiene con KVL, la ley complementaria de KCL.</p>
         </div>
       </div>
     </div>
@@ -527,7 +530,7 @@
       <svg class="bg-node n9" viewBox="0 0 60 60"><line x1="2" y1="30" x2="14" y2="30"></line><path d="M14,30 L19,22 L27,38 L35,22 L43,38 L48,30"></path><line x1="48" y1="30" x2="58" y2="30"></line></svg>
     </div>
     <div class="content">
-      <h2>Circuito con 4 nodos varias ramas</h2>
+      <h2>Circuito con 4 nodos y varias ramas</h2>
       <div class="split diagram-emphasis">
         <div class="col-diagram">
           <svg viewBox="0 0 450 280" style="max-width:620px;">
@@ -612,7 +615,7 @@
             <p class="solve-line">Nodo C: i₄ + i₆ = i₅</p>
             <p class="solve-line result" style="font-size:1.05rem; color:var(--text-dim);">Nodo D: i₃ + i₅ = i₁ &nbsp;(dependiente)</p>
           </div>
-          <p class="ref">La ecuación del nodo D es combinación lineal de las otras tres confirma que con <strong>4 nodos solo hay 3 ecuaciones independientes</strong> (n − 1). Junto con la Ley de Ohm y KVL, este sistema permite calcular cada corriente por análisis nodal.</p>
+          <p class="ref">La ecuación del nodo D es combinación lineal de las otras tres; esto confirma que con <strong>4 nodos solo hay 3 ecuaciones independientes</strong> (n − 1). Junto con la Ley de Ohm y KVL, este sistema permite calcular cada corriente por análisis nodal.</p>
         </div>
       </div>
     </div>
@@ -706,11 +709,12 @@
     <div class="content">
       <h2>Bibliografía y fuentes consultadas</h2>
       <ul class="biblio-list">
-        <li><strong>Sadiku, M. N. O.</strong> <em>Fundamentals of Electric Circuits</em>. McGraw-Hill. Consultado para la definición de la Ley de Corriente de Kirchhoff y el análisis nodal.</li>
-        <li><strong>Boylestad, R. L.</strong> <em>Introductory Circuit Analysis</em>. Pearson. Consultado para la convención de signos y los ejemplos de nodos.</li>
-        <li><strong>Wikimedia Commons</strong> Retrato de Gustav Robert Kirchhoff (Smithsonian Libraries, dominio público).
+        <li><strong>Alexander, C. K. y Sadiku, M. N. O.</strong> (2013). <em>Fundamentals of Electric Circuits</em> (5.ª ed.). McGraw-Hill. Consultado para la definición de la Ley de Corriente de Kirchhoff y el análisis nodal.</li>
+        <li><strong>Boylestad, R. L.</strong> (2016). <em>Introductory Circuit Analysis</em> (13.ª ed.). Pearson. Consultado para la convención de signos y los ejemplos de nodos.</li>
+        <li><strong>Wikimedia Commons.</strong> Retrato de Gustav Robert Kirchhoff (Smithsonian Libraries, dominio público).
           <span class="biblio-url">commons.wikimedia.org/wiki/File:Gustav_Robert_Kirchhoff.jpg</span>
-        </li>      </ul>
+        </li>
+      </ul>
       <div class="logo-row">
         <img class="logo-img" src="assets/logo-ulatina.png" alt="Universidad Latina de Panamá">
         <img class="logo-img" src="assets/logo-mecatronica.png" alt="Ingeniería Mecatrónica - Universidad Latina de Panamá">
@@ -730,6 +734,6 @@
   <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
 </button>
 
-<script src="script.js?v=7"></script>
+<script src="script.js?v=8"></script>
 </body>
 </html>

@@ -103,6 +103,10 @@
   nextBtn.addEventListener('click', () => goTo(current + 1));
 
   document.addEventListener('keydown', (e) => {
+    // leave browser shortcuts (Alt+Left = back, etc.) alone
+    if(e.altKey || e.ctrlKey || e.metaKey) return;
+    // Space/Enter on a focused button or dot is handled by that control
+    if((e.key === ' ' || e.key === 'Enter') && e.target.closest('button, .dot')) return;
     if(['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)){
       e.preventDefault();
       goTo(current + 1);
@@ -117,18 +121,25 @@
   });
 
   // swipe support
-  let touchStartX = null;
-  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  let touchStartX = null, touchStartY = null;
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
   document.addEventListener('touchend', (e) => {
     if(touchStartX === null) return;
     const dx = e.changedTouches[0].clientX - touchStartX;
-    if(Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
-    touchStartX = null;
-  });
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    // only clearly horizontal swipes change slide, so vertical scrolling on phones doesn't
+    if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) goTo(current + (dx < 0 ? 1 : -1));
+    touchStartX = touchStartY = null;
+  }, { passive: true });
 
+  // iPhone Safari has no Fullscreen API: hide the button instead of throwing
+  if(!document.documentElement.requestFullscreen) fsBtn.hidden = true;
   fsBtn.addEventListener('click', () => {
     fsBtn.classList.remove('attention');
-    if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+    if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
     else document.exitFullscreen();
   });
   document.addEventListener('fullscreenchange', updateFsAttention);

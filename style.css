@@ -794,6 +794,7 @@ body.nav-hidden .counter{ opacity: 0; pointer-events: none; }
   cursor: pointer;
   z-index: 10;
 }
+.fullscreen-btn[hidden]{ display: none; }
 .fullscreen-btn:hover{ color: var(--text); border-color: var(--accent); }
 .fullscreen-btn.attention{
   color: var(--accent);
